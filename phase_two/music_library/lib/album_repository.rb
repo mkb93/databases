@@ -1,24 +1,51 @@
-require 'album'
+require_relative './album'
 class AlbumRepository
 
-  def all
-    # SELECT * FROM album
-    # Executes the SQL query:
-    # SELECT * FROM albums;
-    
-    # Returns an array of Album objects.
-  end
+    def all
+      sql = 'SELECT * FROM albums;'
+      result_set = DatabaseConnection.exec_params(sql,[])
+  
+      albums = []
+  
+  
+      result_set.each do |record|
+        album = Album.new
+        album.id =record['id']
+        album.title =record['title']
+        album.release_year = record['release_year']
+        album.artist_id = record['artist_id']
+  
+        albums << album
+      end
+  
+      return albums
+    end
 
   # Gets a single record by its ID
   # One argument: the id (number)
-  def find_by_id(num)
-    # Executes the SQL query:
-    # SELECT * FROM albums WHERE id = num;
-
-    # Returns a single Album object.
+  def find_by_id(num)  
+    sql ="SELECT * FROM albums WHERE id = #{num};"
+    result_set = DatabaseConnection.exec_params(sql, [])
+    item = result_set.first
+    album = Album.new
+    album.id =item['id']
+    album.title =item['title']
+    album.release_year = item['release_year']
+    album.artist_id = item['artist_id']
+    return album
+    
   end
-
+  
   def find_by_title(str)
+    sql = "SELECT * FROM albums WHERE title = '#{str}';"
+    result_set = DatabaseConnection.exec_params(sql, [])
+    item = result_set.first
+    album = Album.new
+    album.id =item['id']
+    album.title =item['title']
+    album.release_year = item['release_year']
+    album.artist_id = item['artist_id']
+    return album
     # Executes the SQL query:
     # SELECT * FROM albums WHERE title=str;
 
@@ -33,9 +60,12 @@ class AlbumRepository
   end
 
   def create(title, release_year, artist_id)
-  # INSERT INTO albums
-  # (title, release_year, artist_id)
-  # VALUES(name, release_year, artist_id)
+  sql = "
+  INSERT INTO albums
+  (title, release_year, artist_id)
+  VALUES('#{title}', '#{release_year}', '#{artist_id}');"
+  result_set = DatabaseConnection.exec_params(sql, [])
+  
   # returns nothing
   end
 
