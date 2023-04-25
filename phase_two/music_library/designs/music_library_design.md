@@ -1,4 +1,4 @@
-# {{TABLE NAME}} Model and Repository Classes Design Recipe
+# artists Model and Repository Classes Design Recipe
 
 _Copy this recipe template to design and implement Model and Repository classes for a database table._
 
@@ -78,21 +78,15 @@ Define the attributes of your Model class. You can usually map the table columns
 # Table name: students
 
 # Model class
-# (in lib/student.rb)
+# (in lib/album.rb)
 
 class Album
 
-  # Replace the attributes by your own columns.
+  
   attr_accessor :id, :title, :release_year, :artist_id
 end
 
-# The keyword attr_accessor is a special Ruby feature
-# which allows us to set and get attributes on an object,
-# here's an example:
-#
-# student = Student.new
-# student.name = 'Jo'
-# student.name
+
 ```
 
 *You may choose to test-drive this class, but unless it contains any more logic than the example above, it is probably not needed.*
