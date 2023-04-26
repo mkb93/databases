@@ -28,7 +28,7 @@ nouns: recipes, names, cooking_time, rating
 Table: recipes
 
 Columns:
-id | names | cooking_time | rating
+id | name | cooking_time | rating
 ```
 
 ## 2. Create Test SQL seeds
@@ -39,7 +39,7 @@ If seed data is provided (or you already created it), you can skip this step.
 
 ```sql
 -- EXAMPLE
--- (file: spec/seeds_{table_name}.sql)
+-- (file: spec/seeds_recipes.sql)
 
 -- Write your SQL seed here. 
 
@@ -59,7 +59,7 @@ INSERT INTO albums (title, release_year, artist_id) VALUES ('Album 2', 2023, 2);
 Run this SQL file on the database to truncate (empty) the table, and insert the seed data. Be mindful of the fact any existing records in the table will be deleted.
 
 ```bash
-psql -h 127.0.0.1 music_library_test < seeds_albums.sql
+psql -h 127.0.0.1 recipes_directory_test < seeds.sql
 ```
 
 ## 3. Define the class names
@@ -72,12 +72,12 @@ Usually, the Model class name will be the capitalised table name (single instead
 
 # Model class
 # (in lib/student.rb)
-class Album
+class Recipe
 end
 
 # Repository class
 # (in lib/student_repository.rb)
-class AlbumRepository
+class RecipeRepository
 end
 ```
 
