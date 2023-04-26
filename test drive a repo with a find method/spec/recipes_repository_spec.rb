@@ -18,15 +18,15 @@ RSpec.describe RecipeRepository do
     album = repo.all
     expect(album.length).to eq(2)
     expect(album.first.id).to eq('1')
-    expect(album.first.release_year).to eq('2022')
+    expect(album.first.name).to eq('food1')
   end
 
   describe '#find' do
-    it 'returns a specific album object' do
-      repo =AlbumRepository.new
+    it 'returns a specific recipe object' do
+      repo =RecipeRepository.new
       album = repo.find_by_id(1)
       expect(album.id).to eq('1')
-      expect(album.release_year).to eq('2022')
+      expect(album.rating).to eq('5')
     end
   end
 
