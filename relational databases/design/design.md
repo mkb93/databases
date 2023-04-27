@@ -6,29 +6,27 @@ _Copy this recipe template to design and create two related database tables from
 
 ```
 # EXAMPLE USER STORY:
-# (analyse only the relevant part - here the final line).
+As a coach
+So I can get to know all students
+I want to see a list of students' names.
 
-As a music lover,
-So I can organise my records,
-I want to keep a list of albums' titles.
+As a coach
+So I can get to know all students
+I want to see a list of cohorts' names.
 
-As a music lover,
-So I can organise my records,
-I want to keep a list of albums' release years.
+As a coach
+So I can get to know all students
+I want to see a list of cohorts' starting dates.
 
-As a music lover,
-So I can organise my records,
-I want to keep a list of artists' names.
-
-As a music lover,
-So I can organise my records,
-I want to know each album's artist.
+As a coach
+So I can get to know all students
+I want to see a list of students' cohorts.
 ```
 
 ```
 Nouns:
 
-album, title, release year, artist, name
+students, names, cohorts, starting_dates,  students_cohorts.
 ```
 
 ## 2. Infer the Table Name and Columns
@@ -37,16 +35,16 @@ Put the different nouns in this table. Replace the example with your own nouns.
 
 | Record                | Properties          |
 | --------------------- | ------------------  |
-| album                 | title, release year
-| artist                | name
+| students                | name, cohort
+| cohort               | name , starting_dates
 
-1. Name of the first table (always plural): `albums` 
+1. Name of the first table (always plural): `students` 
 
-    Column names: `title`, `release_year`
+    Column names: `name`, `cohort`
 
-2. Name of the second table (always plural): `artists` 
+2. Name of the second table (always plural): `cohort` 
 
-    Column names: `name`
+    Column names: `name`, `starting_dates`
 
 ## 3. Decide the column types.
 
@@ -132,7 +130,7 @@ CREATE TABLE albums (
 ## 5. Create the tables.
 
 ```bash
-psql -h 127.0.0.1 database_name < albums_table.sql
+psql -h 127.0.0.1 student_directory_2 < seeds.sql
 ```
 
 <!-- BEGIN GENERATED SECTION DO NOT EDIT -->
