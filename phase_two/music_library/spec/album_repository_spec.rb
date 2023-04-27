@@ -1,4 +1,5 @@
 require 'album_repository'
+require 'album'
 
 RSpec.describe AlbumRepository do
 
@@ -38,6 +39,38 @@ RSpec.describe AlbumRepository do
       expect(album.release_year).to eq('2022')
       expect(album.artist_id).to eq('1')
     end
+  end
+  describe "#create" do
+  it "" do
+    repository = AlbumRepository.new
+
+    album = Album.new
+    album.title = 'Trompe le Monde'
+    album.release_year = 1991
+    album.artist_id = 20
+    aww_albums = repository.all.length
+    repository.create(album)
+
+    all_albums = repository.all.length
+    expect(all_albums-aww_albums).to eq 1
+  end
+  it "" do
+    repository = AlbumRepository.new
+    length1 = repository.all.length
+    repository.delete(1)
+    length2 = repository.all.length
+    expect(length1 - length2).to eq 1
+  end
+  it "" do
+    repository = AlbumRepository.new
+    album = Album.new
+    album.title = 'Trompe le Monde'
+    album.release_year = 1991
+    album.artist_id = 20
+    repository.update_release_year(album, 2000)
+    length2 = repository.al
+    expect(length1 - length2).to eq 1
+  end
   end
 end
 end

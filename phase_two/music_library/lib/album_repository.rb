@@ -24,8 +24,9 @@ class AlbumRepository
   # Gets a single record by its ID
   # One argument: the id (number)
   def find_by_id(num)  
-    sql ="SELECT * FROM albums WHERE id = #{num};"
-    result_set = DatabaseConnection.exec_params(sql, [])
+    sql ="SELECT * FROM albums WHERE id = $1;"
+    params = [num]
+    result_set = DatabaseConnection.exec_params(sql, params)
     item = result_set.first
     album = Album.new
     album.id =item['id']
@@ -59,23 +60,28 @@ class AlbumRepository
     # Returns an array Album object.
   end
 
-  def create(title, release_year, artist_id)
+  def create(album)
   sql = "
   INSERT INTO albums
   (title, release_year, artist_id)
-  VALUES('#{title}', '#{release_year}', '#{artist_id}');"
-  result_set = DatabaseConnection.exec_params(sql, [])
-  
-  # returns nothing
+  VALUES($1, $2, $3);"
+  params=[album.title, album.release_year, album.artist_id]
+  result_set = DatabaseConnection.exec_params(sql, params)
+
+  return nil
   end
 
   def update_release_year(album, year)
-  # UPDATE albums SET release_year = year  WHERE id = album.id
-  # returns nothing
+  sql = 'UPDATE albums SET release_year = $2  WHERE id = $1;'
+  params = [ album, album.year]
+  result = DatabaseConnection.exec_params(sql, params)
   end
 
-  def delete(album)
-  # DELETE FROM albums WHERE id = album.id
-  # returns nothing
+  def delete(artist_id)
+    sql = "DELETE FROM albums WHERE artist_id = $1;"
+    params = [artist_id]
+    result = DatabaseConnection.exec_params(sql, params)
+
+    return nil 
   end
 end
