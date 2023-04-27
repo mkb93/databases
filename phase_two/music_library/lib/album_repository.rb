@@ -71,10 +71,12 @@ class AlbumRepository
   return nil
   end
 
-  def update_release_year(album, year)
-  sql = 'UPDATE albums SET release_year = $2  WHERE id = $1;'
-  params = [ album, album.year]
-  result = DatabaseConnection.exec_params(sql, params)
+  def update(album)
+    sql = 'UPDATE albums SET title = $1, release_year = $2, artist_id = $3 WHERE id = $4'
+    params = [album.title, album.release_year, album.artist_id, album.id]
+    DatabaseConnection.exec_params(sql, params)
+
+    return nil
   end
 
   def delete(artist_id)

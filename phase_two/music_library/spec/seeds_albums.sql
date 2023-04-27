@@ -1,10 +1,10 @@
 DROP TABLE IF EXISTS albums;
 CREATE TABLE albums(
-    "id" serial, 
-    "title" text, 
-    "release_year" int4,
-    "artist_id" int4,
-    PRIMARY KEY ("id"));
+    id SERIAL PRIMARY KEY, 
+    title text, 
+    release_year int,
+    artist_id int
+    );
 
 
 TRUNCATE TABLE albums RESTART IDENTITY; 

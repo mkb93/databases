@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS albums;
-CREATE TABLE albums(
+DROP TABLE IF EXISTS artists;
+CREATE TABLE artists(
     "id" serial, 
     "name" text, 
     "genre" text,

@@ -63,14 +63,13 @@ RSpec.describe AlbumRepository do
   end
   it "" do
     repository = AlbumRepository.new
-    album = Album.new
-    album.title = 'Trompe le Monde'
-    album.release_year = 1991
-    album.artist_id = 20
-    repository.update_release_year(album, 2000)
-    length2 = repository.al
-    expect(length1 - length2).to eq 1
+    album = repository.find_by_title("Album 1")
+    album.release_year = '10'
+    repository.update(album)
+    album_test = repository.find_by_title("Album 1")
+    expect(album_test.release_year).to eq '10'
   end
+
   end
 end
 end
