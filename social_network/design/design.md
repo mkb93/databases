@@ -25,8 +25,110 @@ So I can know who reads my posts,
 I'd like each of my posts to have a number of views.
 
 Columns:
-id | title | release_year | artist_id
+users | username | posts | user_id | title | content | number_of_views
 ```
+## 2. Infer the Table Name and Columns
+
+Put the different nouns in this table. Replace the example with your own nouns.
+
+| Record                | Properties          |
+| --------------------- | ------------------  |
+| users              | username, id
+| posts              | title , content, user_id, number_of_views 
+
+1. Name of the first table (always plural): `users` 
+
+    Column names: `username`, `id`
+
+2. Name of the second table (always plural): `posts` 
+
+    Column names: `title`, `content`, `user_id`, `number_of_views`
+
+## 3. Decide the column types.
+
+[Here's a full documentation of PostgreSQL data types](https://www.postgresql.org/docs/current/datatype.html).
+
+Most of the time, you'll need either `text`, `int`, `bigint`, `numeric`, or `boolean`. If you're in doubt, do some research or ask your peers.
+
+Remember to **always** have the primary key `id` as a first column. Its type will always be `SERIAL`.
+
+```
+# EXAMPLE:
+
+Table: users
+id: SERIAL
+username: text
+
+Table: posts
+id: SERIAL
+title: text
+content: text
+number_of_views: int
+user_id: int
+
+## 4. Decide on The Tables Relationship
+
+Most of the time, you'll be using a **one-to-many** relationship, and will need a **foreign key** on one of the two tables.
+
+To decide on which one, answer these two questions:
+
+1. Can one [TABLE ONE] have many [TABLE TWO]? (Yes/No)
+2. Can one [TABLE TWO] have many [TABLE ONE]? (Yes/No)
+
+You'll then be able to say that:
+
+1. **[A] has many [B]**
+2. And on the other side, **[B] belongs to [A]**
+3. In that case, the foreign key is in the table [B]
+
+Replace the relevant bits in this example with your own:
+
+```
+# EXAMPLE
+
+1. Can one user have many posts? YES
+2. Can one post have many users? NO
+
+-> Therefore,
+-> An user HAS MANY posts
+-> An post BELONGS TO an user
+
+-> Therefore, the foreign key is on the posts table.
+```
+
+## 4. Write the SQL.
+
+```sql
+-- EXAMPLE
+-- file: table.sql
+
+-- Replace the table name, columm names and types.
+
+-- Create the table without the foreign key first.
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  name text,
+);
+
+-- Then the table with the foreign key.
+CREATE TABLE posts (
+  id SERIAL PRIMARY KEY,
+  title text,
+  content text,
+  number_of_views int,
+-- The foreign key name is always {other_table_singular}_id
+  user_id int,
+  constraint fk_user foreign key(user_id)
+    references users(id)
+    on delete cascade
+);
+
+```
+
+## 5. Create the tables.
+
+```bash
+psql -h 127.0.0.1 student_directory_2 < seeds.sql
 
 ## 2. Create Test SQL seeds
 
@@ -65,16 +167,24 @@ Usually, the Model class name will be the capitalised table name (single instead
 
 ```ruby
 # EXAMPLE
-# Table name: students
+# Table name: users
 
 # Model class
-# (in lib/student.rb)
-class Album
+# (in lib/user.rb)
+class User
 end
 
 # Repository class
 # (in lib/student_repository.rb)
-class AlbumRepository
+class UserRepository
+end
+# Repository class
+# (in lib/student_repository.rb)
+class Post
+end
+# Repository class
+# (in lib/student_repository.rb)
+class PostRepository
 end
 ```
 
@@ -126,26 +236,7 @@ class AlbumRepository
 
   # Gets a single record by its ID
   # One argument: the id (number)
-  def find_by_id(num)
-    # Executes the SQL query:
-    # SELECT * FROM albums WHERE id = num;
-
-    # Returns a single Album object.
-  end
-
-  def find_by_title(str)
-    # Executes the SQL query:
-    # SELECT * FROM albums WHERE title=str;
-
-    # Returns a single Album object.
-  end
-
-  def find_by_release_year(year)
-    # Executes the SQL query:
-    # SELECT * FROM albums WHERE release_year = year;
-
-    # Returns an array Album object.
-  end
+  def find(id)
 
   def create(title, release_year, artist_id)
   # INSERT INTO albums
@@ -154,7 +245,7 @@ class AlbumRepository
   # returns nothing
   end
 
-  def update_release_year(album, year)
+  def update(album)
   # UPDATE albums SET release_year = year  WHERE id = album.id
   # returns nothing
   end
